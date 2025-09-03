@@ -57,7 +57,7 @@ const JobProfileModal: React.FC<JobProfileModalProps> = ({ position, onClose }) 
             <button
               onClick={handleGenerateDescription}
               disabled={isLoading}
-              className="w-full flex justify-center items-center gap-2 bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors disabled:bg-teal-300"
+              className="w-full flex justify-center items-center gap-2 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-300"
             >
               {isLoading ? (
                 <>

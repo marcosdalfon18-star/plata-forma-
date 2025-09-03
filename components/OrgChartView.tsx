@@ -23,11 +23,11 @@ const OrgChartNode: React.FC<OrgChartNodeProps> = ({ employee, subordinates, onN
     <div className="flex flex-col items-center">
       <div 
         onClick={handleCardClick}
-        className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-t-4 border-teal-500 w-48 text-center"
+        className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-t-4 border-indigo-500 w-48 text-center"
       >
         <img src={employee.avatarUrl} alt={employee.name} className="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-gray-200" />
         <p className="font-bold text-gray-800">{employee.name}</p>
-        <p className="text-sm text-teal-600">{position?.title}</p>
+        <p className="text-sm text-indigo-600">{position?.title}</p>
       </div>
       {subordinates.length > 0 && (
         <>

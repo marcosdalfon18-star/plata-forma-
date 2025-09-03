@@ -6,13 +6,15 @@ import DashboardView from './components/DashboardView';
 import OrgChartView from './components/OrgChartView';
 import MarketingView from './components/MarketingView';
 import CybersecurityView from './components/CybersecurityView';
+import JobAnalysisView from './components/JobAnalysisView';
+import CompanyManualView from './components/CompanyManualView';
 import Notification from './components/common/Notification';
 import { EMPLOYEES } from './constants';
 import { type ViewType, type Notification as NotificationType, type Employee, EmployeeStatus } from './types';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [currentView, setCurrentView] = useState<ViewType>('dashboard');
+  const [currentView, setCurrentView] = useState<ViewType>('inicio');
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [employees, setEmployees] = useState<Employee[]>(EMPLOYEES);
 
@@ -22,7 +24,7 @@ const App: React.FC = () => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setCurrentView('dashboard');
+    setCurrentView('inicio');
   };
 
   const removeNotification = (id: number) => {
@@ -75,8 +77,10 @@ const App: React.FC = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header currentView={currentView} onLogout={handleLogout} />
           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-8">
-            {currentView === 'dashboard' && <DashboardView employees={employees} onEmployeeStatusChange={handleEmployeeStatusChange} />}
+            {currentView === 'inicio' && <DashboardView employees={employees} onEmployeeStatusChange={handleEmployeeStatusChange} />}
             {currentView === 'orgChart' && <OrgChartView employees={employees} />}
+            {currentView === 'jobAnalysis' && <JobAnalysisView />}
+            {currentView === 'companyManual' && <CompanyManualView />}
             {currentView === 'marketing' && <MarketingView />}
             {currentView === 'cybersecurity' && <CybersecurityView />}
           </main>

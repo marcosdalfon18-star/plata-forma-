@@ -20,7 +20,7 @@ export interface Employee {
   avatarUrl: string;
 }
 
-export type ViewType = 'dashboard' | 'orgChart' | 'marketing' | 'cybersecurity';
+export type ViewType = 'inicio' | 'orgChart' | 'jobAnalysis' | 'companyManual' | 'marketing' | 'cybersecurity';
 
 export interface Notification {
   id: number;

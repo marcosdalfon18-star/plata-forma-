@@ -10,7 +10,7 @@ const CybersecurityView: React.FC = () => {
         confianza en sus operaciones.
       </p>
       <div className="mt-8 text-center">
-        <div className="inline-block bg-teal-100 text-teal-800 font-semibold px-4 py-2 rounded-full">
+        <div className="inline-block bg-indigo-100 text-indigo-800 font-semibold px-4 py-2 rounded-full">
           Módulo Próximamente
         </div>
       </div>

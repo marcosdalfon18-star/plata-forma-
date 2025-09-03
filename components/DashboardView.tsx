@@ -53,7 +53,7 @@ const EmployeeStatusWidget: React.FC<{ employees: Employee[]}> = ({ employees })
         </div>
         <div className="text-center md:text-left">
             <div className="mb-4">
-                <p className="text-4xl font-bold text-teal-600">{totalEmployees}</p>
+                <p className="text-4xl font-bold text-indigo-600">{totalEmployees}</p>
                 <p className="text-gray-500">Empleados Totales</p>
             </div>
             {statusData.map(item => (
@@ -86,7 +86,7 @@ const EmployeeListWidget: React.FC<DashboardViewProps> = ({ employees, onEmploye
                         <select
                             value={employee.status}
                             onChange={(e) => onEmployeeStatusChange(employee.id, e.target.value as EmployeeStatus)}
-                            className="bg-gray-50 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 transition"
+                            className="bg-gray-50 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition"
                         >
                             {Object.values(EmployeeStatus).map(status => (
                                 <option key={status} value={status}>{status}</option>
@@ -103,16 +103,16 @@ const EmployeeListWidget: React.FC<DashboardViewProps> = ({ employees, onEmploye
 const DashboardView: React.FC<DashboardViewProps> = ({ employees, onEmployeeStatusChange }) => {
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-gray-800">Dashboard de Capital Humano</h2>
+      <h2 className="text-3xl font-bold text-gray-800">Inicio - Capital Humano</h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
             <EmployeeStatusWidget employees={employees} />
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-center">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">Plan de Suscripción</h3>
-            <p className="text-teal-600 font-bold text-2xl">Premium</p>
+            <p className="text-indigo-600 font-bold text-2xl">Premium</p>
             <p className="text-gray-500 mt-2">Acceso completo a todas las funcionalidades.</p>
-            <button className="mt-4 w-full bg-teal-500 text-white py-2 rounded-md hover:bg-teal-600 transition-colors">Administrar Plan</button>
+            <button className="mt-4 w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 transition-colors">Administrar Plan</button>
         </div>
       </div>
       <div>

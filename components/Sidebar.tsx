@@ -6,6 +6,8 @@ import UsersIcon from './icons/UsersIcon';
 import ChartPieIcon from './icons/ChartPieIcon';
 import MarketingIcon from './icons/MarketingIcon';
 import ShieldIcon from './icons/ShieldIcon';
+import DocumentTextIcon from './icons/DocumentTextIcon';
+import BookOpenIcon from './icons/BookOpenIcon';
 
 interface SidebarProps {
   currentView: ViewType;
@@ -14,8 +16,10 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: <HomeIcon /> },
+    { id: 'inicio', label: 'Inicio', icon: <HomeIcon /> },
     { id: 'orgChart', label: 'Organigrama', icon: <UsersIcon /> },
+    { id: 'jobAnalysis', label: 'Análisis de Puestos', icon: <DocumentTextIcon /> },
+    { id: 'companyManual', label: 'Manual de Empresa', icon: <BookOpenIcon /> },
     { id: 'marketing', label: 'Marketing', icon: <MarketingIcon /> },
     { id: 'cybersecurity', label: 'Ciberseguridad', icon: <ShieldIcon /> },
   ];
@@ -24,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
     <div className="w-64 bg-white text-gray-800 flex flex-col shadow-lg">
       <div className="flex items-center justify-center h-20 border-b border-gray-200">
         <ChartPieIcon />
-        <h1 className="text-2xl font-bold text-teal-600 ml-2">{COMPANY_NAME}</h1>
+        <h1 className="text-2xl font-bold text-indigo-600 ml-2">{COMPANY_NAME}</h1>
       </div>
       <nav className="flex-1 px-4 py-6">
         <ul>
@@ -34,8 +38,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
                 onClick={() => setCurrentView(item.id as ViewType)}
                 className={`flex items-center w-full px-4 py-3 my-1 rounded-lg transition-all duration-300 ${
                   currentView === item.id
-                    ? 'bg-teal-600 text-white shadow-md'
-                    : 'text-gray-600 hover:bg-teal-100 hover:text-teal-600'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-gray-600 hover:bg-indigo-100 hover:text-indigo-600'
                 }`}
               >
                 <span className="mr-3">{item.icon}</span>
@@ -46,9 +50,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
         </ul>
       </nav>
       <div className="p-4 border-t border-gray-200">
-        <div className="bg-teal-50 p-4 rounded-lg text-center">
-            <p className="text-sm text-teal-800 font-semibold">Plataforma Digital</p>
-            <p className="text-xs text-teal-600 mt-1">&copy; 2024. Todos los derechos reservados.</p>
+        <div className="bg-indigo-50 p-4 rounded-lg text-center">
+            <p className="text-sm text-indigo-800 font-semibold">Plataforma Digital</p>
+            <p className="text-xs text-indigo-600 mt-1">&copy; 2024. Todos los derechos reservados.</p>
         </div>
       </div>
     </div>

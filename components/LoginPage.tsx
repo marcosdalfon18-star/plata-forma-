@@ -15,7 +15,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center p-4">
         
         <div className="lg:w-1/2 text-center lg:text-left mb-10 lg:mb-0 lg:pr-16">
-          <h1 className="text-5xl font-bold text-teal-600">Talento Sostenible</h1>
+          <h1 className="text-5xl font-bold text-indigo-600">Talento Sostenible</h1>
           <p className="mt-4 text-xl text-gray-600">
             La plataforma digital para impulsar la competitividad de las PYMES con soluciones accionables para el éxito.
           </p>
@@ -30,7 +30,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   Correo Electrónico o Usuario
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   id="email"
                   type="email"
                   placeholder="su@correo.com"
@@ -42,7 +42,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   Contraseña
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   id="password"
                   type="password"
                   placeholder="******************"
@@ -51,14 +51,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition-colors duration-300"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition-colors duration-300"
                   type="submit"
                 >
                   Acceder
                 </button>
               </div>
               <p className="text-center text-gray-500 text-sm mt-6">
-                ¿No tiene una cuenta? <a href="#" className="font-bold text-teal-600 hover:text-teal-800">Regístrese</a>
+                ¿No tiene una cuenta? <a href="#" className="font-bold text-indigo-600 hover:text-indigo-800">Regístrese</a>
               </p>
             </form>
           </div>
