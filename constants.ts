@@ -1,4 +1,4 @@
-import { type Employee, type JobPosition, EmployeeStatus, type Communication } from './types';
+import { type Employee, type JobPosition, EmployeeStatus, type Communication, type Report } from './types';
 
 export const JOB_POSITIONS: JobPosition[] = [
   { id: 'ceo', title: 'CEO', description: 'Overall strategic direction and leadership.', responsibilities: ['Set company vision', 'Lead executive team', 'Investor relations'] },
@@ -34,6 +34,7 @@ export const REGULATORY_COMMUNICATIONS: Communication[] = [
     content: 'Se ha actualizado la política de trabajo remoto. Por favor, revísela en el portal de empleados. Los cambios incluyen nuevos lineamientos sobre horarios flexibles y equipamiento proporcionado por la empresa.',
     date: '2024-07-15T10:00:00Z',
     author: 'Recursos Humanos',
+    recipient: 'Todos los empleados',
   },
   {
     id: 2,
@@ -41,5 +42,41 @@ export const REGULATORY_COMMUNICATIONS: Communication[] = [
     content: 'Les recordamos que el cierre fiscal se aproxima. Todos los reportes de gastos deben ser enviados antes del 25 de este mes para ser procesados a tiempo.',
     date: '2024-07-10T14:30:00Z',
     author: 'Departamento de Finanzas',
+    recipient: 'Todos los empleados',
+  },
+];
+
+export const REPORTS: Report[] = [
+  {
+    id: 1,
+    title: 'Análisis de Clima Laboral Q2 2024',
+    category: 'Recursos Humanos',
+    date: '2024-07-20T09:00:00Z',
+    summary: 'Informe detallado sobre la satisfacción y el compromiso de los empleados durante el segundo trimestre. Incluye recomendaciones de mejora.',
+    downloadUrl: '#',
+  },
+  {
+    id: 2,
+    title: 'Rendimiento de Campaña de Marketing Digital - Julio',
+    category: 'Marketing Estratégico',
+    date: '2024-08-01T11:30:00Z',
+    summary: 'Análisis del ROI, alcance y conversiones de las campañas en redes sociales y Google Ads ejecutadas en el mes de julio.',
+    downloadUrl: '#',
+  },
+  {
+    id: 3,
+    title: 'Evaluación de Desempeño Semestral',
+    category: 'Recursos Humanos',
+    date: '2024-07-05T14:00:00Z',
+    summary: 'Resultados consolidados de las evaluaciones de desempeño del primer semestre, identificando fortalezas y áreas de oportunidad.',
+    downloadUrl: '#',
+  },
+  {
+    id: 4,
+    title: 'Investigación de Mercado: Competidores Clave',
+    category: 'Marketing Estratégico',
+    date: '2024-06-25T16:45:00Z',
+    summary: 'Estudio comparativo de las estrategias de marketing y posicionamiento de los principales competidores en el sector.',
+    downloadUrl: '#',
   },
 ];

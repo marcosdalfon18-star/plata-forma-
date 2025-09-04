@@ -9,8 +9,8 @@ const Logo: React.FC<{ className?: string }> = ({ className = "h-24 w-24" }) => 
   >
     <defs>
       <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#4f46e5" /> {/* indigo-600 */}
-        <stop offset="100%" stopColor="#818cf8" /> {/* indigo-400 */}
+        <stop offset="0%" stopColor="#5F8587" />
+        <stop offset="100%" stopColor="#B0C7C8" />
       </linearGradient>
     </defs>
     <rect width="100" height="100" rx="20" fill="url(#logoGradient)" />

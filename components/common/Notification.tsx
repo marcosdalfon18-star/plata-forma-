@@ -27,9 +27,9 @@ const ICONS = {
 };
 
 const STYLES = {
-  success: 'bg-white border-l-4 border-green-500 text-green-700',
-  info: 'bg-white border-l-4 border-blue-500 text-blue-700',
-  error: 'bg-white border-l-4 border-red-500 text-red-700',
+  success: 'bg-white border-l-4 border-[#90BE6D] text-[#415D36]',
+  info: 'bg-white border-l-4 border-[#577590] text-[#2D3C4A]',
+  error: 'bg-white border-l-4 border-[#F94144] text-[#C42528]',
 };
 
 interface NotificationProps {

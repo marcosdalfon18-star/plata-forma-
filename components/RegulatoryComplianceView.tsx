@@ -3,7 +3,7 @@ import { type Communication } from '../types';
 
 interface RegulatoryComplianceViewProps {
   communications: Communication[];
-  onAddCommunication: (title: string, content: string) => void;
+  onAddCommunication: (title: string, content: string, recipient: string) => void;
 }
 
 const CommunicationCard: React.FC<{ comm: Communication }> = ({ comm }) => {
@@ -11,9 +11,13 @@ const CommunicationCard: React.FC<{ comm: Communication }> = ({ comm }) => {
         <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
             <div className="flex justify-between items-start mb-2">
                 <h3 className="text-lg font-semibold text-gray-800">{comm.title}</h3>
-                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{new Date(comm.date).toLocaleDateString()}</span>
+                <span className="text-xs text-blue-700 bg-blue-100 px-2 py-1 rounded-full">{new Date(comm.date).toLocaleDateString()}</span>
             </div>
-            <p className="text-sm text-gray-500 mb-4">Publicado por: {comm.author}</p>
+             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 mb-4">
+                <span>Publicado por: <span className="font-medium text-gray-600">{comm.author}</span></span>
+                <span className="w-px h-4 bg-gray-300 hidden sm:block"></span>
+                <span>Dirigido a: <span className="font-medium text-gray-600">{comm.recipient}</span></span>
+            </div>
             <p className="text-gray-700 whitespace-pre-wrap">{comm.content}</p>
         </div>
     );
@@ -22,14 +26,16 @@ const CommunicationCard: React.FC<{ comm: Communication }> = ({ comm }) => {
 const RegulatoryComplianceView: React.FC<RegulatoryComplianceViewProps> = ({ communications, onAddCommunication }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [recipient, setRecipient] = useState('');
   const [showForm, setShowForm] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (title.trim() && content.trim()) {
-      onAddCommunication(title, content);
+    if (title.trim() && content.trim() && recipient.trim()) {
+      onAddCommunication(title, content, recipient);
       setTitle('');
       setContent('');
+      setRecipient('');
       setShowForm(false);
     }
   };
@@ -43,7 +49,7 @@ const RegulatoryComplianceView: React.FC<RegulatoryComplianceViewProps> = ({ com
         </div>
         <button
             onClick={() => setShowForm(!showForm)}
-            className="flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-sm"
+            className="flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-sm"
         >
             {showForm ? 'Cancelar' : 'Nueva Comunicación'}
         </button>
@@ -60,8 +66,20 @@ const RegulatoryComplianceView: React.FC<RegulatoryComplianceViewProps> = ({ com
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="appearance-none w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
+                        className="appearance-none w-full bg-blue-50 border border-gray-300 text-gray-800 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
                         placeholder="Ej: Actualización de Políticas"
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="comm-recipient" className="block text-sm font-medium text-gray-700 mb-1">Dirigido a</label>
+                    <input
+                        id="comm-recipient"
+                        type="text"
+                        value={recipient}
+                        onChange={(e) => setRecipient(e.target.value)}
+                        className="appearance-none w-full bg-blue-50 border border-gray-300 text-gray-800 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
+                        placeholder="Ej: Todos los empleados, Equipo de Marketing"
                         required
                     />
                 </div>
@@ -72,13 +90,13 @@ const RegulatoryComplianceView: React.FC<RegulatoryComplianceViewProps> = ({ com
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         rows={5}
-                        className="appearance-none w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
+                        className="appearance-none w-full bg-blue-50 border border-gray-300 text-gray-800 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
                         placeholder="Escriba aquí el mensaje para los empleados..."
                         required
                     />
                 </div>
                 <div className="text-right pt-2">
-                    <button type="submit" className="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="submit" className="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         Publicar
                     </button>
                 </div>

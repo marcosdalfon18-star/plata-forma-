@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { generateCybersecurityPractices } from '../services/geminiService';
 import Spinner from './common/Spinner';
@@ -35,7 +34,7 @@ const CybersecurityView: React.FC = () => {
         <button
           onClick={handleGeneratePractices}
           disabled={isLoading}
-          className="w-full sm:w-auto flex justify-center items-center gap-2 bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-300 disabled:cursor-not-allowed"
+          className="w-full sm:w-auto flex justify-center items-center gap-2 bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
           aria-live="polite"
         >
           {isLoading ? (
@@ -57,7 +56,7 @@ const CybersecurityView: React.FC = () => {
       {error && <p role="alert" className="mt-4 text-red-600 bg-red-100 p-3 rounded-md font-medium">{error}</p>}
 
       {practices.length > 0 && (
-        <div className="mt-8 p-6 bg-gray-50 border rounded-lg">
+        <div className="mt-8 p-6 bg-blue-100 border rounded-lg border-blue-200">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">Buenas Prácticas Recomendadas</h3>
           <ul className="list-disc list-inside space-y-3 text-gray-700">
             {practices.map((practice, index) => (

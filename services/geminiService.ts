@@ -95,3 +95,73 @@ export const generateCybersecurityPractices = async (): Promise<string[]> => {
     throw new Error("Hubo un error al generar las recomendaciones de ciberseguridad. Por favor, inténtelo de nuevo más tarde.");
   }
 };
+
+export const generateHrPolicy = async (topic: string, keyPoints: string): Promise<string> => {
+    if (!API_KEY) {
+        return "Error: API key is not configured.";
+    }
+
+    const prompt = `
+        Actúa como un consultor experto en Recursos Humanos.
+        Redacta una política de empresa formal y completa sobre el tema: "${topic}".
+        La política debe basarse en los siguientes puntos clave:
+        ${keyPoints}
+        
+        Estructura el documento con secciones claras como '1. Propósito', '2. Alcance', '3. Detalles de la Política', y '4. Responsabilidades'.
+        El tono debe ser profesional, claro y fácil de entender para todos los empleados.
+    `;
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+        });
+        return response.text;
+    } catch (error) {
+        console.error("Error generating HR policy:", error);
+        return "Hubo un error al generar la política con la IA.";
+    }
+};
+
+export const generateOnboardingChecklist = async (name: string, position: string, startDate: string): Promise<Record<string, string[]>> => {
+    if (!API_KEY) {
+        throw new Error("API key is not configured.");
+    }
+
+    const prompt = `
+        Actúa como un especialista en Onboarding de RRHH.
+        Crea una lista de tareas de incorporación detallada para la primera semana de un nuevo empleado.
+        - Nombre del empleado: ${name}
+        - Puesto: ${position}
+        - Fecha de inicio: ${startDate}
+        
+        Devuelve la respuesta como un objeto JSON. Las claves deben ser "Dia 1", "Dia 2", "Dia 3", "Dia 4", "Dia 5".
+        El valor de cada clave debe ser un array de strings, donde cada string es una tarea de onboarding específica para ese día.
+    `;
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        "Dia 1": { type: Type.ARRAY, items: { type: Type.STRING } },
+                        "Dia 2": { type: Type.ARRAY, items: { type: Type.STRING } },
+                        "Dia 3": { type: Type.ARRAY, items: { type: Type.STRING } },
+                        "Dia 4": { type: Type.ARRAY, items: { type: Type.STRING } },
+                        "Dia 5": { type: Type.ARRAY, items: { type: Type.STRING } },
+                    }
+                }
+            }
+        });
+
+        const jsonString = response.text.trim();
+        return JSON.parse(jsonString);
+    } catch (error) {
+        console.error("Error generating onboarding checklist:", error);
+        throw new Error("Hubo un error al generar el checklist de onboarding.");
+    }
+};

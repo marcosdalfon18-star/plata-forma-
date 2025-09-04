@@ -9,18 +9,22 @@ import CybersecurityView from './components/CybersecurityView';
 import JobAnalysisView from './components/JobAnalysisView';
 import CompanyManualView from './components/CompanyManualView';
 import RegulatoryComplianceView from './components/RegulatoryComplianceView';
+import ReportsView from './components/ReportsView';
+import AIAgentsView from './components/AIAgentsView';
 import Notification from './components/common/Notification';
-import { EMPLOYEES, REGULATORY_COMMUNICATIONS } from './constants';
-import { type ViewType, type Notification as NotificationType, type Employee, EmployeeStatus, type UserPlan, type Communication } from './types';
+import { EMPLOYEES, REGULATORY_COMMUNICATIONS, REPORTS } from './constants';
+import { type ViewType, type Notification as NotificationType, type Employee, EmployeeStatus, type UserPlan, type Communication, type Report } from './types';
+import { hasAccessToView } from './features';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<ViewType>('inicio');
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [employees, setEmployees] = useState<Employee[]>(EMPLOYEES);
-  const [userPlan, setUserPlan] = useState<UserPlan>('plan_premium'); // Simular usuario premium
+  const [userPlan, setUserPlan] = useState<UserPlan>('plan_basico');
   const [communications, setCommunications] = useState<Communication[]>(REGULATORY_COMMUNICATIONS);
-
+  const [reports, setReports] = useState<Report[]>(REPORTS);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -29,6 +33,14 @@ const App: React.FC = () => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setCurrentView('inicio');
+  };
+
+  const handleChangeView = (view: ViewType) => {
+    if (hasAccessToView(userPlan, view)) {
+      setCurrentView(view);
+    } else {
+      addNotification('Necesita un plan superior para acceder a este módulo.', 'info');
+    }
   };
 
   const removeNotification = (id: number) => {
@@ -61,11 +73,12 @@ const App: React.FC = () => {
       }
   };
 
-  const addCommunication = (title: string, content: string) => {
+  const addCommunication = (title: string, content: string, recipient: string) => {
     const newCommunication: Communication = {
       id: Date.now(),
       title,
       content,
+      recipient,
       date: new Date().toISOString(),
       author: 'Consultora', // Nombre del usuario actual
     };
@@ -78,6 +91,36 @@ const App: React.FC = () => {
     return <LoginPage onLogin={handleLogin} />;
   }
 
+  const renderView = () => {
+    if (!hasAccessToView(userPlan, currentView)) {
+      // Fallback for bookmarked URLs or direct navigation attempts
+      return (
+        <div className="p-8 bg-white rounded-lg shadow-md text-center">
+            <h2 className="text-2xl font-bold text-slate-800 mb-4">Acceso Denegado</h2>
+            <p className="text-slate-600 mb-6">
+                Su plan de suscripción actual no incluye acceso a este módulo.
+            </p>
+            <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                Mejorar mi Plan
+            </button>
+        </div>
+      );
+    }
+    
+    switch (currentView) {
+        case 'inicio': return <DashboardView employees={employees} onEmployeeStatusChange={handleEmployeeStatusChange} userPlan={userPlan} setUserPlan={setUserPlan} />;
+        case 'orgChart': return <OrgChartView employees={employees} userPlan={userPlan} />;
+        case 'jobAnalysis': return <JobAnalysisView userPlan={userPlan} />;
+        case 'companyManual': return <CompanyManualView />;
+        case 'marketing': return <MarketingView />;
+        case 'cybersecurity': return <CybersecurityView />;
+        case 'regulatoryCompliance': return <RegulatoryComplianceView communications={communications} onAddCommunication={addCommunication} />;
+        case 'informes': return <ReportsView reports={reports} />;
+        case 'agentesIA': return <AIAgentsView />;
+        default: return <DashboardView employees={employees} onEmployeeStatusChange={handleEmployeeStatusChange} userPlan={userPlan} setUserPlan={setUserPlan} />;
+    }
+  }
+
   return (
     <>
       <div className="fixed top-4 right-4 z-[100] w-full max-w-sm space-y-3">
@@ -85,18 +128,32 @@ const App: React.FC = () => {
           <Notification key={notification.id} notification={notification} onClose={removeNotification} />
         ))}
       </div>
-      <div className="flex h-screen bg-gray-100 font-sans">
-        <Sidebar currentView={currentView} setCurrentView={setCurrentView} userPlan={userPlan} />
+      
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <div className="flex h-screen bg-blue-50 font-sans">
+        <Sidebar 
+          currentView={currentView} 
+          setCurrentView={handleChangeView} 
+          userPlan={userPlan}
+          isOpen={isSidebarOpen}
+          setIsOpen={setIsSidebarOpen}
+        />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header currentView={currentView} onLogout={handleLogout} />
-          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-8">
-            {currentView === 'inicio' && <DashboardView employees={employees} onEmployeeStatusChange={handleEmployeeStatusChange} />}
-            {currentView === 'orgChart' && <OrgChartView employees={employees} />}
-            {currentView === 'jobAnalysis' && <JobAnalysisView />}
-            {currentView === 'companyManual' && <CompanyManualView />}
-            {currentView === 'marketing' && <MarketingView />}
-            {currentView === 'cybersecurity' && <CybersecurityView />}
-            {currentView === 'regulatoryCompliance' && <RegulatoryComplianceView communications={communications} onAddCommunication={addCommunication} />}
+          <Header 
+            currentView={currentView} 
+            onLogout={handleLogout} 
+            onMenuClick={() => setIsSidebarOpen(true)}
+            userPlan={userPlan}
+          />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-blue-50 p-4 md:p-8">
+            {renderView()}
           </main>
         </div>
       </div>

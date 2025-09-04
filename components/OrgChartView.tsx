@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { JOB_POSITIONS } from '../constants';
-import { type Employee, type JobPosition } from '../types';
+import { type Employee, type JobPosition, type UserPlan } from '../types';
 import JobProfileModal from './JobProfileModal';
 
 interface OrgChartNodeProps {
@@ -23,11 +23,11 @@ const OrgChartNode: React.FC<OrgChartNodeProps> = ({ employee, subordinates, onN
     <div className="flex flex-col items-center">
       <div 
         onClick={handleCardClick}
-        className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-t-4 border-indigo-500 w-48 text-center"
+        className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-t-4 border-blue-500 w-48 text-center"
       >
         <img src={employee.avatarUrl} alt={employee.name} className="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-gray-200" />
         <p className="font-bold text-gray-800">{employee.name}</p>
-        <p className="text-sm text-indigo-600">{position?.title}</p>
+        <p className="text-sm text-[#4A5A5B]">{position?.title}</p>
       </div>
       {subordinates.length > 0 && (
         <>
@@ -58,9 +58,10 @@ const MemoizedNode = React.memo(({ employee, onNodeClick, employees }: { employe
 
 interface OrgChartViewProps {
     employees: Employee[];
+    userPlan: UserPlan;
 }
 
-const OrgChartView: React.FC<OrgChartViewProps> = ({ employees }) => {
+const OrgChartView: React.FC<OrgChartViewProps> = ({ employees, userPlan }) => {
   const [selectedPosition, setSelectedPosition] = useState<JobPosition | null>(null);
 
   const rootEmployee = useMemo(() => employees.find(e => e.managerId === null), [employees]);
@@ -78,12 +79,12 @@ const OrgChartView: React.FC<OrgChartViewProps> = ({ employees }) => {
   }
 
   return (
-    <div className="p-4 md:p-8 bg-gray-50 rounded-lg min-h-full">
+    <div className="p-4 md:p-8 bg-blue-50 rounded-lg min-h-full">
       <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Organigrama de la Empresa</h2>
       <div className="flex justify-center overflow-x-auto pb-8">
         <MemoizedNode employee={rootEmployee} onNodeClick={handleNodeClick} employees={employees} />
       </div>
-      <JobProfileModal position={selectedPosition} onClose={handleCloseModal} />
+      <JobProfileModal position={selectedPosition} onClose={handleCloseModal} userPlan={userPlan} />
     </div>
   );
 };
