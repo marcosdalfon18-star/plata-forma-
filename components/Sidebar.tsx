@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ViewType } from '../types';
+import { type ViewType, type UserPlan } from '../types';
 import { COMPANY_NAME } from '../constants';
 import HomeIcon from './icons/HomeIcon';
 import UsersIcon from './icons/UsersIcon';
@@ -8,13 +8,15 @@ import MarketingIcon from './icons/MarketingIcon';
 import ShieldIcon from './icons/ShieldIcon';
 import DocumentTextIcon from './icons/DocumentTextIcon';
 import BookOpenIcon from './icons/BookOpenIcon';
+import MegaphoneIcon from './icons/MegaphoneIcon';
 
 interface SidebarProps {
   currentView: ViewType;
   setCurrentView: (view: ViewType) => void;
+  userPlan: UserPlan;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
+const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, userPlan }) => {
   const navItems = [
     { id: 'inicio', label: 'Inicio', icon: <HomeIcon /> },
     { id: 'orgChart', label: 'Organigrama', icon: <UsersIcon /> },
@@ -47,6 +49,21 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
               </button>
             </li>
           ))}
+          {(userPlan === 'plan_profesional' || userPlan === 'plan_premium') && (
+            <li key="regulatoryCompliance">
+              <button
+                onClick={() => setCurrentView('regulatoryCompliance')}
+                className={`flex items-center w-full px-4 py-3 my-1 rounded-lg transition-all duration-300 ${
+                  currentView === 'regulatoryCompliance'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-gray-600 hover:bg-indigo-100 hover:text-indigo-600'
+                }`}
+              >
+                <span className="mr-3"><MegaphoneIcon /></span>
+                <span className="font-medium">Comunicaciones</span>
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
       <div className="p-4 border-t border-gray-200">

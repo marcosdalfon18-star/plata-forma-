@@ -20,10 +20,20 @@ export interface Employee {
   avatarUrl: string;
 }
 
-export type ViewType = 'inicio' | 'orgChart' | 'jobAnalysis' | 'companyManual' | 'marketing' | 'cybersecurity';
+export type ViewType = 'inicio' | 'orgChart' | 'jobAnalysis' | 'companyManual' | 'marketing' | 'cybersecurity' | 'regulatoryCompliance';
 
 export interface Notification {
   id: number;
   type: 'success' | 'info' | 'error';
   message: string;
+}
+
+export type UserPlan = 'plan_basico' | 'plan_profesional' | 'plan_premium';
+
+export interface Communication {
+  id: number;
+  title: string;
+  content: string;
+  date: string; // ISO string format
+  author: string;
 }

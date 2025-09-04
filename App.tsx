@@ -8,15 +8,19 @@ import MarketingView from './components/MarketingView';
 import CybersecurityView from './components/CybersecurityView';
 import JobAnalysisView from './components/JobAnalysisView';
 import CompanyManualView from './components/CompanyManualView';
+import RegulatoryComplianceView from './components/RegulatoryComplianceView';
 import Notification from './components/common/Notification';
-import { EMPLOYEES } from './constants';
-import { type ViewType, type Notification as NotificationType, type Employee, EmployeeStatus } from './types';
+import { EMPLOYEES, REGULATORY_COMMUNICATIONS } from './constants';
+import { type ViewType, type Notification as NotificationType, type Employee, EmployeeStatus, type UserPlan, type Communication } from './types';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<ViewType>('inicio');
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [employees, setEmployees] = useState<Employee[]>(EMPLOYEES);
+  const [userPlan, setUserPlan] = useState<UserPlan>('plan_premium'); // Simular usuario premium
+  const [communications, setCommunications] = useState<Communication[]>(REGULATORY_COMMUNICATIONS);
+
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -33,15 +37,12 @@ const App: React.FC = () => {
 
   const addNotification = (message: string, type: NotificationType['type']) => {
       const id = Date.now();
-      // Add notification to the start of the array to show newest on top
       setNotifications(prev => [{ id, message, type }, ...prev]);
       setTimeout(() => {
-          // Use a functional update to ensure we are removing the correct one
-          // even if other notifications are added/removed in the meantime.
           setNotifications(currentNotifications => 
               currentNotifications.filter(n => n.id !== id)
           );
-      }, 5000); // Auto-close after 5 seconds
+      }, 5000);
   };
 
   const handleEmployeeStatusChange = (employeeId: number, newStatus: EmployeeStatus) => {
@@ -60,6 +61,18 @@ const App: React.FC = () => {
       }
   };
 
+  const addCommunication = (title: string, content: string) => {
+    const newCommunication: Communication = {
+      id: Date.now(),
+      title,
+      content,
+      date: new Date().toISOString(),
+      author: 'Consultora', // Nombre del usuario actual
+    };
+    setCommunications(prev => [newCommunication, ...prev]);
+    addNotification(`Nueva comunicación "${title}" publicada.`, 'success');
+  };
+
 
   if (!isLoggedIn) {
     return <LoginPage onLogin={handleLogin} />;
@@ -73,7 +86,7 @@ const App: React.FC = () => {
         ))}
       </div>
       <div className="flex h-screen bg-gray-100 font-sans">
-        <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+        <Sidebar currentView={currentView} setCurrentView={setCurrentView} userPlan={userPlan} />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header currentView={currentView} onLogout={handleLogout} />
           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-8">
@@ -83,6 +96,7 @@ const App: React.FC = () => {
             {currentView === 'companyManual' && <CompanyManualView />}
             {currentView === 'marketing' && <MarketingView />}
             {currentView === 'cybersecurity' && <CybersecurityView />}
+            {currentView === 'regulatoryCompliance' && <RegulatoryComplianceView communications={communications} onAddCommunication={addCommunication} />}
           </main>
         </div>
       </div>

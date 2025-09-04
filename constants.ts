@@ -1,4 +1,4 @@
-import { type Employee, type JobPosition, EmployeeStatus } from './types';
+import { type Employee, type JobPosition, EmployeeStatus, type Communication } from './types';
 
 export const JOB_POSITIONS: JobPosition[] = [
   { id: 'ceo', title: 'CEO', description: 'Overall strategic direction and leadership.', responsibilities: ['Set company vision', 'Lead executive team', 'Investor relations'] },
@@ -26,3 +26,20 @@ export const EMPLOYEES: Employee[] = [
 ];
 
 export const COMPANY_NAME = "Talento Sostenible";
+
+export const REGULATORY_COMMUNICATIONS: Communication[] = [
+  {
+    id: 1,
+    title: 'Actualización de Política de Trabajo Remoto',
+    content: 'Se ha actualizado la política de trabajo remoto. Por favor, revísela en el portal de empleados. Los cambios incluyen nuevos lineamientos sobre horarios flexibles y equipamiento proporcionado por la empresa.',
+    date: '2024-07-15T10:00:00Z',
+    author: 'Recursos Humanos',
+  },
+  {
+    id: 2,
+    title: 'Recordatorio: Cierre Fiscal Anual',
+    content: 'Les recordamos que el cierre fiscal se aproxima. Todos los reportes de gastos deben ser enviados antes del 25 de este mes para ser procesados a tiempo.',
+    date: '2024-07-10T14:30:00Z',
+    author: 'Departamento de Finanzas',
+  },
+];
