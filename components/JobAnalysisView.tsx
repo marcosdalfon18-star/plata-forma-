@@ -1,14 +1,14 @@
 import React from 'react';
-import { type UserPlan } from '../types';
+import { type UserPlan, type Employee } from '../types';
 import OrgChartView from './OrgChartView';
-import { EMPLOYEES } from '../constants';
 
 
 interface JobAnalysisViewProps {
     userPlan: UserPlan;
+    employees: Employee[];
 }
 
-const JobAnalysisView: React.FC<JobAnalysisViewProps> = ({ userPlan }) => {
+const JobAnalysisView: React.FC<JobAnalysisViewProps> = ({ userPlan, employees }) => {
   return (
     <div className="space-y-8">
       <div>
@@ -21,7 +21,7 @@ const JobAnalysisView: React.FC<JobAnalysisViewProps> = ({ userPlan }) => {
       
       {/* Re-utilizamos el organigrama como la interfaz principal para esta vista */}
       <div className="bg-white p-4 rounded-lg shadow-md">
-        <OrgChartView employees={EMPLOYEES} userPlan={userPlan} />
+        <OrgChartView employees={employees} userPlan={userPlan} />
       </div>
     </div>
   );

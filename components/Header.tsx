@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ViewType, type UserPlan } from '../types';
+import { type ViewType, type UserPlan, type User, type Company } from '../types';
 import HamburgerIcon from './icons/HamburgerIcon';
 
 interface HeaderProps {
@@ -7,6 +7,8 @@ interface HeaderProps {
   onLogout: () => void;
   onMenuClick: () => void;
   userPlan: UserPlan;
+  currentUser: User | null;
+  selectedCompany: Company | null;
 }
 
 const viewTitles: Record<ViewType, string> = {
@@ -19,9 +21,32 @@ const viewTitles: Record<ViewType, string> = {
   regulatoryCompliance: 'Comunicaciones',
   informes: 'Centro de Informes',
   agentesIA: 'Agentes IA',
+  planManagement: 'Gestión de Planes',
+  selectionProcesses: 'Procesos de Selección',
+  payrollManagement: 'Gestión de Nóminas',
 };
 
-const Header: React.FC<HeaderProps> = ({ currentView, onLogout, onMenuClick }) => {
+const Header: React.FC<HeaderProps> = ({ currentView, onLogout, onMenuClick, currentUser, selectedCompany }) => {
+  const getTitle = () => {
+    const baseTitle = viewTitles[currentView] ?? 'Dashboard';
+
+    if (currentUser?.role === 'consultor') {
+        if (selectedCompany) {
+            const companyName = selectedCompany.name.length > 20 ? `${selectedCompany.name.substring(0, 20)}...` : selectedCompany.name;
+            const viewTitle = currentView === 'inicio' ? 'Dashboard Cliente' : baseTitle;
+            return `${companyName} - ${viewTitle}`;
+        }
+        return baseTitle;
+    }
+    if (currentUser?.role === 'empresa') {
+        return baseTitle;
+    }
+    if (currentUser?.role === 'empleado') {
+        return baseTitle;
+    }
+    return 'Talento Sostenible'
+  }
+  
   return (
     <header className="flex items-center justify-between p-4 bg-white border-b border-slate-200 shadow-sm">
       <div className="flex items-center">
@@ -32,10 +57,10 @@ const Header: React.FC<HeaderProps> = ({ currentView, onLogout, onMenuClick }) =
         >
           <HamburgerIcon />
         </button>
-        <h1 className="text-2xl font-semibold text-slate-800">{viewTitles[currentView]}</h1>
+        <h1 className="text-2xl font-semibold text-slate-800">{getTitle()}</h1>
       </div>
       <div className="flex items-center space-x-4">
-        <span className="text-slate-700 font-medium hidden md:block">Bienvenida, Consultora</span>
+        <span className="text-slate-700 font-medium hidden md:block">Bienvenido, {currentUser?.name}</span>
         <div className="relative">
           <button onClick={onLogout} className="flex items-center space-x-2 border border-slate-300 bg-white hover:bg-blue-100 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor">
