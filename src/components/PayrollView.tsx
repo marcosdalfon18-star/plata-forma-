@@ -1,7 +1,6 @@
 import React from 'react';
 import { type PayrollDocument } from '../types';
 import UploadIcon from './icons/UploadIcon';
-import DocumentTextIcon from './icons/DocumentTextIcon';
 
 interface PayrollViewProps {
     payrolls: PayrollDocument[];

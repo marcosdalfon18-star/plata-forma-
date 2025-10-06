@@ -64,7 +64,7 @@ const EmployeeStatusChart: React.FC<EmployeeStatusChartProps> = ({ employees }) 
                             fill="#8884d8"
                             dataKey="value"
                             nameKey="name"
-                            // FIX: Explicitly type the label props as 'any' to resolve TypeScript errors with recharts prop type inference.
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
                                 const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
                                 const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
