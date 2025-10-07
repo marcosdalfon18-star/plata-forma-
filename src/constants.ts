@@ -1,4 +1,4 @@
-import { type Employee, type JobPosition, EmployeeStatus, type Communication, type Report, type User, type Company, type Plan, type UserPlan, type AdvisoryLogEntry, type Document, type JobOpening, CandidateStatus, type PayrollDocument } from './types';
+import { type Employee, type JobPosition, EmployeeStatus, type Communication, type Report, type User, type Company, type Plan, type AdvisoryLogEntry, type Document, type JobOpening, CandidateStatus, type PayrollDocument } from './types';
 
 export const JOB_POSITIONS: JobPosition[] = [
   { id: 'ceo', title: 'CEO', description: 'Overall strategic direction and leadership.', responsibilities: ['Set company vision', 'Lead executive team', 'Investor relations'], companyId: 1 },

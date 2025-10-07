@@ -39,9 +39,9 @@ const App: React.FC = () => {
   const [userPlan, setUserPlan] = useState<UserPlan>('plan_premium'); // Kept for consultant's simulator
   const [communications, setCommunications] = useState<Communication[]>(REGULATORY_COMMUNICATIONS);
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [advisoryLogs, setAdvisoryLogs] = useState<AdvisoryLogEntry[]>(ADVISORY_LOGS);
-  const [documents, setDocuments] = useState<Document[]>(DOCUMENTS);
-  const [selectionProcesses, setSelectionProcesses] = useState<JobOpening[]>(SELECTION_PROCESSES);
+  const [_advisoryLogs, _setAdvisoryLogs] = useState<AdvisoryLogEntry[]>(ADVISORY_LOGS);
+  const [_documents, _setDocuments] = useState<Document[]>(DOCUMENTS);
+  const [selectionProcesses, _setSelectionProcesses] = useState<JobOpening[]>(SELECTION_PROCESSES);
   const [payrollDocuments, setPayrollDocuments] = useState<PayrollDocument[]>(PAYROLL_DOCUMENTS);
 
 
@@ -163,16 +163,17 @@ const App: React.FC = () => {
     addActivity(ActivityType.NewJobPosition, `Nuevo puesto "${newPosition.title}" creado en ${companyName}.`, companyId);
   };
 
-  const handleAddAdvisoryLog = (newLog: Omit<AdvisoryLogEntry, 'id' | 'date' | 'consultantName'>) => {
-      const logEntry: AdvisoryLogEntry = {
-          ...newLog,
-          id: Date.now(),
-          date: new Date().toISOString(),
-          consultantName: currentUser?.name || 'Consultor',
-      };
-      setAdvisoryLogs(prev => [logEntry, ...prev]);
-      addNotification(`Nueva entrada de bitácora añadida para ${companies.find(c => c.id === newLog.companyId)?.name}.`, 'success');
-  };
+  // Unused handler for future feature
+  // const handleAddAdvisoryLog = (newLog: Omit<AdvisoryLogEntry, 'id' | 'date' | 'consultantName'>) => {
+  //     const logEntry: AdvisoryLogEntry = {
+  //         ...newLog,
+  //         id: Date.now(),
+  //         date: new Date().toISOString(),
+  //         consultantName: currentUser?.name || 'Consultor',
+  //     };
+  //     setAdvisoryLogs(prev => [logEntry, ...prev]);
+  //     addNotification(`Nueva entrada de bitácora añadida para ${companies.find(c => c.id === newLog.companyId)?.name}.`, 'success');
+  // };
 
   const handleAddNewCompany = (newCompanyData: Omit<Company, 'id'>) => {
     const newCompany: Company = {
@@ -184,9 +185,10 @@ const App: React.FC = () => {
     setIsAddCompanyModalOpen(false);
   };
 
-  const handleUploadDocumentClick = () => {
-    addNotification('La funcionalidad para subir documentos estará disponible próximamente.', 'info');
-  };
+  // Unused handler for future feature
+  // const handleUploadDocumentClick = () => {
+  //   addNotification('La funcionalidad para subir documentos estará disponible próximamente.', 'info');
+  // };
 
   const handleBulkAction = (action: string, employeeIds: number[]) => {
     addNotification(`Acción '${action}' seleccionada para ${employeeIds.length} empleados. Funcionalidad en desarrollo.`, 'info');
@@ -226,7 +228,7 @@ const App: React.FC = () => {
       title,
       content,
       recipient,
-      author: currentUser.name,
+      author: currentUser?.name || 'Unknown',
       date: new Date().toISOString(),
     };
     setCommunications(prev => [newCommunication, ...prev]);
@@ -382,26 +384,30 @@ const App: React.FC = () => {
               return <JobAnalysisView userPlan={company.planId} employees={companyEmployees} />;
           case 'companyManual':
               return <CompanyManualView />;
-          case 'selectionProcesses':
+          case 'selectionProcesses': {
               const companyProcesses = selectionProcesses.filter(p => p.companyId === currentUser?.companyId);
               return <SelectionProcessView 
                 processes={companyProcesses} 
                 jobPositions={companyJobPositions}
                 onRequestSelection={handleRequestSelectionProcess}
               />;
-          case 'regulatoryCompliance':
+          }
+          case 'regulatoryCompliance': {
               const companyCommunications = communications.filter(c => c.companyId === currentUser.companyId);
               return <RegulatoryComplianceView communications={companyCommunications} onAddCommunication={handleAddCommunication} />;
-          case 'payrollManagement':
+          }
+          case 'payrollManagement': {
               const companyPayrolls = payrollDocuments.filter(p => p.companyId === currentUser.companyId);
               return <PayrollView 
                         payrolls={companyPayrolls} 
                         onUploadClick={() => setIsUploadPayrollModalOpen(true)}
                         onSendPayroll={handleSendPayroll}
                    />;
-          case 'informes':
+          }
+          case 'informes': {
               const companyReports = REPORTS.filter(r => r.category === 'Recursos Humanos'); // Example filter
               return <ReportsView reports={companyReports} />;
+          }
           case 'marketing':
               return <MarketingView />;
           case 'cybersecurity':

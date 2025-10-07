@@ -2,23 +2,20 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-// FIX: Use process.env.API_KEY as per guidelines. This will resolve the type error for import.meta.env.
-const API_KEY = process.env.API_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 if (!API_KEY) {
-  // FIX: Update warning message to reflect the correct environment variable.
-  console.warn("API_KEY environment variable not set. AI features will not work.");
+  console.warn("VITE_API_KEY environment variable not set. AI features will not work.");
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY! });
+const ai = API_KEY ? new GoogleGenAI({ apiKey: API_KEY }) : null;
 
 export const generateJobDescription = async (
   title: string,
   responsibilities: string[]
 ): Promise<string> => {
   if (!API_KEY) {
-    // FIX: Update error message to reflect the correct environment variable.
-    return Promise.resolve("Error: API key is not configured. Please set the API_KEY environment variable.");
+    return Promise.resolve("Error: API key is not configured. Please set the VITE_API_KEY environment variable.");
   }
 
   const prompt = `
@@ -34,11 +31,14 @@ export const generateJobDescription = async (
   `;
 
   try {
+    if (!ai) {
+      return "Error: API key is not configured. Please set the VITE_API_KEY environment variable.";
+    }
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt,
     });
-    return response.text;
+    return response.text || "";
   } catch (error) {
     console.error("Error generating job description:", error);
     return "Hubo un error al generar la descripción con la IA. Por favor, inténtelo de nuevo más tarde.";
@@ -57,6 +57,9 @@ export const generateCybersecurityPractices = async (): Promise<string[]> => {
   `;
 
   try {
+    if (!ai) {
+      throw new Error("API key is not configured.");
+    }
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt,
@@ -77,7 +80,7 @@ export const generateCybersecurityPractices = async (): Promise<string[]> => {
         }
     });
 
-    const jsonString = response.text.trim();
+    const jsonString = (response.text || "").trim();
     const result = JSON.parse(jsonString);
     
     if (result && Array.isArray(result.practices)) {
@@ -116,11 +119,14 @@ export const generateHrPolicy = async (topic: string, keyPoints: string): Promis
     `;
 
     try {
+        if (!ai) {
+            return "Error: API key is not configured. Please set the VITE_API_KEY environment variable.";
+        }
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
-        return response.text;
+        return response.text || "";
     } catch (error) {
         console.error("Error generating HR policy:", error);
         return "Hubo un error al generar la política con la IA.";
@@ -144,6 +150,9 @@ export const generateOnboardingChecklist = async (name: string, position: string
     `;
 
     try {
+        if (!ai) {
+            throw new Error("API key is not configured.");
+        }
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
@@ -162,7 +171,7 @@ export const generateOnboardingChecklist = async (name: string, position: string
             }
         });
 
-        const jsonString = response.text.trim();
+        const jsonString = (response.text || "").trim();
         return JSON.parse(jsonString);
     } catch (error) {
         console.error("Error generating onboarding checklist:", error);

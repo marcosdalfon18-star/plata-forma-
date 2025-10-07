@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { type Company, type Employee, type AdvisoryLogEntry, type Document, EmployeeStatus, type InteractionType } from '../types';
+import { type Company, type Employee, type AdvisoryLogEntry, type Document, EmployeeStatus } from '../types';
 import AdvisoryLogWidget from './AdvisoryLogWidget';
 import DocumentListWidget from './DocumentListWidget';
 import ArrowLeftIcon from './icons/ArrowLeftIcon';

@@ -3,8 +3,6 @@ import { type Employee, EmployeeStatus, type UserPlan, type Activity, type Compa
 // FIX: Changed to a named import to resolve the "no default export" error.
 import { BuildingOfficePlusIcon } from './icons/BuildingOfficePlusIcon';
 import SearchIcon from './icons/SearchIcon';
-import BriefcaseIcon from './icons/BriefcaseIcon';
-import DocumentCurrencyIcon from './icons/DocumentCurrencyIcon';
 import UserPlusIcon from './icons/UserPlusIcon';
 import PencilIcon from './icons/PencilIcon';
 import BriefcasePlusIcon from './icons/BriefcasePlusIcon';
